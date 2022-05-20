@@ -1,0 +1,183 @@
+<!doctype html>
+<html id="main">
+<head>
+	<meta charset="UTF-8">
+	<title>F1 2022 Leaderboard</title>
+	<link rel="icon" type="image/png" href="img/ICONS/favicon.png"/>
+	<link rel="stylesheet" href="style.css">
+	<link rel="apple-touch-icon" type="image/png" href="img/ICONS/favicon.png">
+	
+	<link rel="stylesheet" media="screen and (max-width: 1000px)">
+</head>
+
+<body>
+	
+	<div class="header">
+		
+		<form action="#">
+			<input type="text" placeholder="French Grand Prix 2022 - Qualifying...">
+		</form>
+		
+		<!--
+		<p>Reorganize drivers according to their performance. If you want to restart, press "refresh". Once you're done, press the "capture" button and get a unique screenshot of your leaderboard!</p>
+		-->
+	</div>
+	
+		<div class="container">
+			
+			<div class="leftColumn">
+				<div class="topNumbers">
+					<div class="numbers">1</div>
+					<div class="numbers">2</div>
+					<div class="numbers">3</div>
+					<div class="numbers">4</div>
+					<div class="numbers">5</div>
+					<div class="numbers">6</div>
+					<div class="numbers">7</div>
+					<div class="numbers">8</div>
+					<div class="numbers">9</div>
+					<div class="numbers">10</div>
+				</div>
+				
+				<div class="topDrivers">
+					<div draggable="true" class="box"><img src="img/PILOTS/VER.jpg" alt="driver no. 1"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/PER.jpg" alt="driver no. 2"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/HAM.jpg" alt="driver no. 3"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/RUS.jpg" alt="driver no. 4"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/SAI.jpg" alt="driver no. 5"></div>
+
+					<div draggable="true" class="box"><img src="img/PILOTS/LEC.jpg" alt="driver no. 6"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/NOR.jpg" alt="driver no. 7"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/RIC.jpg" alt="driver no. 8"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/OCO.jpg" alt="driver no. 9"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/ALO.jpg" alt="driver no. 10"></div>
+				</div>
+			</div>
+				
+			<div class="rightColumn">
+				<div class="lastNumbers">
+					<div class="numbers">11</div>
+					<div class="numbers">12</div>
+					<div class="numbers">13</div>
+					<div class="numbers">14</div>
+					<div class="numbers">15</div>
+					<div class="numbers">16</div>
+					<div class="numbers">17</div>
+					<div class="numbers">18</div>
+					<div class="numbers">19</div>
+					<div class="numbers">20</div>
+				</div>
+				
+				<div class="lastDrivers">
+					<div draggable="true" class="box"><img src="img/PILOTS/GAS.jpg" alt="driver no. 11"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/TSU.jpg" alt="driver no. 12"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/VET.jpg" alt="driver no. 13"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/STR.jpg" alt="driver no. 14"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/LAT.jpg" alt="driver no. 15"></div>
+
+					<div draggable="true" class="box"><img src="img/PILOTS/ALB.jpg" alt="driver no. 16"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/BOT.jpg" alt="driver no. 17"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/ZHO.jpg" alt="driver no. 18"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/MSC.jpg" alt="driver no. 19"></div>
+					<div draggable="true" class="box"><img src="img/PILOTS/MAG.png" alt="driver no. 20"></div>
+				</div>
+			</div>
+		</div>
+	
+		<script type="text/javascript" src="html2canvas.js"></script>
+		<script>
+			function doCapture(){
+				window.scrollTo(0, 0);
+				
+				var canvas = document.getElementById("main");
+					
+				html2canvas(document.getElementById("main")).then(function(canvas){
+					var ajax = new XMLHttpRequest();
+						
+					ajax.open("POST", "save-capture.php", true);
+					ajax.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+					ajax.send("image=" + (canvas.toDataURL("image/jpeg", 0.9)));
+					ajax.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200){
+							console.log(this.responseText);
+						}
+					};
+				});
+			}
+		</script>
+	
+		<div class="buttons">
+			<button type="button" onclick="window.location.reload(false)"><img src="img/icons/icon-refresh.png" alt="refresh button" width="15px" style="margin-right: 5px">Refresh</button>
+			
+			<button class="capture" type="button" onclick="doCapture();"><img src="img/icons/icon-camera.png" alt="capture button" width="15px" style="margin-right: 5px">Capture</button>
+		</div>
+	
+	<script>
+		
+		document.addEventListener('DOMContentLoaded', (event) => {
+			
+			function handleDragStart(e) {
+				this.style.opacity = '.4';
+
+			  	dragSrcEl = this;
+
+				e.dataTransfer.effectAllowed = 'move';
+				e.dataTransfer.setData('text/html', this.innerHTML);
+			
+			}
+
+			function handleDragEnd(e) {
+				this.style.opacity = '1';
+				
+				items.forEach(function(item){
+					item.classList.remove('over');
+				});
+			}
+			
+			function handleDragOver(e){
+				if(e.preventDefault){
+					e.preventDefault();
+				}
+				
+				return false;
+			}
+			
+			function handleDragEnter(e){
+				this.classList.add('over');
+			}
+			
+			function handleDragLeave(e){
+				this.classList.remove('over');
+				this.style.opacity = '1';
+			}
+			
+			function handleDrop(e) {
+  				e.stopPropagation();
+				
+				this.classList.remove('over');
+
+  				if (dragSrcEl !== this) {
+    				dragSrcEl.innerHTML = this.innerHTML;
+    				this.innerHTML = e.dataTransfer.getData('text/html');
+  				}
+
+  			return false;
+				
+			}
+
+			let items = document.querySelectorAll('.container .box');
+			items.forEach(function(item) {
+				item.addEventListener('dragstart', handleDragStart);
+				item.addEventListener('dragover', handleDragOver);
+				item.addEventListener('dragenter', handleDragEnter);
+				item.addEventListener('dragleave', handleDragLeave);
+				item.addEventListener('dragend', handleDragEnd);
+				item.addEventListener('drop', handleDrop);
+			});
+			
+		});
+		
+	</script>
+	
+</body>
+</html>
